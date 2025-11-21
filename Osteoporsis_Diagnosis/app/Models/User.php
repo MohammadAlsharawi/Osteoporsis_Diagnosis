@@ -21,7 +21,31 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nationality',
+        'phone_number',
+        'birthdate',
+        'address',
+        'first_name',
+        'father_name',
+        'last_name',
+        'gender',
+        'status',
+        'medical_specialty'
     ];
+    public function patients()
+    {
+        return $this->hasMany(Patient::class, 'doctor_id');
+    }
+
+    public function radiologyAnalyses()
+    {
+        return $this->hasMany(RadiologyAnalysis::class, 'doctor_id');
+    }
+
+    public function chatSessions()
+    {
+        return $this->hasMany(ChatSession::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
