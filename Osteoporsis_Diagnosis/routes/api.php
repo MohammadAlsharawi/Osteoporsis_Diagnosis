@@ -16,8 +16,19 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::middleware(['auth:api'])->group(function () {
-    
+
     Route::controller(UserController::class)->group(function () {
-        Route::post('/addUser','addUser');
+        Route::post('/addUser', 'addUser');
+        Route::delete('/delete-user/{id}', 'deleteUser');
+        Route::delete('/force-delete-user/{id}', 'forceDeleteUser');
+        Route::get('/show-deleted-users', 'showDeletedUsers');
+        Route::post('/restore-user/{id}', 'restoreUser');
+        Route::get('/all-users', 'getAllUsers');
+        Route::put('/update-user/{id}', 'updateUser');
+        Route::post('/logout', 'logout');
+        Route::post('/searchUsers', 'searchUsers');
+        Route::put('/updateProfile', 'updateProfile');
+        Route::post('/updatePassword', 'updatePassword');
+        Route::get('/showProfile', 'showProfile');
     });
 });
