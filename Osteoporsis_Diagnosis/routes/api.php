@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\FullPatientController;
+use App\Http\Controllers\API\RadiologyAIController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +33,8 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/updatePassword', 'updatePassword');
         Route::get('/showProfile', 'showProfile');
     });
+
+    Route::apiResource('patients', FullPatientController::class);
+
+
 });
