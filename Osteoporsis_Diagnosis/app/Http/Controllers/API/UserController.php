@@ -139,7 +139,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         try {
             $this->userService->logout($user);
             return $this->successResponse([], 'Logged out successfully.');

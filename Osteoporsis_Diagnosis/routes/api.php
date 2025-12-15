@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\FullPatientController;
 use App\Http\Controllers\API\RadiologyAIController;
 use App\Http\Controllers\API\UserController;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

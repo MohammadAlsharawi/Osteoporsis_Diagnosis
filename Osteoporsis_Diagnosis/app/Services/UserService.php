@@ -38,8 +38,8 @@ class UserService
         try{
             $user = User::create($data);
             return $user;
-        }catch (\Exception $e){
-            throw $e->getMessage();
+        }catch (Exception $e){
+            throw $e;
         }
     }
     public function addUser($data)
@@ -49,7 +49,7 @@ class UserService
             $user = User::create($data);
             return $user;
         } catch (\Exception $e) {
-            throw $e->getMessage();
+            throw $e;
         }
     }
     public function deleteUser($id)

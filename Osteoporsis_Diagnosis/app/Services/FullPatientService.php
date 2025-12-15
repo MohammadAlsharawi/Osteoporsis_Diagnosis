@@ -92,7 +92,7 @@ class FullPatientService
     {
         $process = new Process([
             'python',
-            base_path('ai/process.py'),
+            base_path('AImodel1/predict.py'),
             $analysis->original_image_path
         ]);
         $process->run();
