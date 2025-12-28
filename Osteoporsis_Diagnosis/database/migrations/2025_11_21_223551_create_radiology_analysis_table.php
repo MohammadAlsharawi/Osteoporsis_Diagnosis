@@ -17,10 +17,9 @@ return new class extends Migration
             $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
             $table->string('original_image_path');
             $table->string('ai_processed_image_path')->nullable();
-            $table->string('site')->nullable();
-            $table->float('t_score_value')->nullable();
-            $table->float('z_score_value')->nullable();
             $table->string('diagnosis')->nullable();
+            $table->float('diagnostic_accuracy')->nullable();
+            $table->float('healthy_accuracy')->nullable();
             $table->enum('status', ['pending','processed','failed'])->default('pending');
             $table->timestamps();
         });

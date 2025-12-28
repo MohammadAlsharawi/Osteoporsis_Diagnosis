@@ -10,13 +10,13 @@ class FullPatientService
     public function getAll()
     {
         // ,'radiologyAnalyses'
-        return Patient::with(['medicalHistory','medications'])->get();
+        return Patient::with(['medicalHistory'])->get();
     }
 
     public function getById($id)
     {
         // ,'radiologyAnalyses'
-        return Patient::with(['medicalHistory','medications'])->findOrFail($id);
+        return Patient::with(['medicalHistory'])->findOrFail($id);
     }
 
     public function create(array $data)
@@ -27,24 +27,17 @@ class FullPatientService
             $patient->medicalHistory()->create($data['medical_history']);
         }
 
-        if (!empty($data['medications'])) {
-            foreach ($data['medications'] as $med) {
-                $patient->medications()->create($med);
-            }
-        }
-
         if (!empty($data['radiology'])) {
             $analysis = $patient->radiologyAnalyses()->create([
                 'doctor_id' => $data['doctor_id'],
                 'original_image_path' => $data['radiology']['original_image_path'],
-                'site' => $data['radiology']['site'] ?? null,
                 'status' => 'pending'
             ]);
 
             // $this->runAI($analysis);
         }
 
-        return $patient->load(['medicalHistory','medications','radiologyAnalyses']);
+        return $patient->load(['medicalHistory','radiologyAnalyses']);
     }
 
     public function update($id, array $data)
@@ -59,35 +52,21 @@ class FullPatientService
             );
         }
 
-        if (!empty($data['medications'])) {
-            $patient->medications()->delete();
-            foreach ($data['medications'] as $med) {
-                $patient->medications()->create($med);
-            }
-        }
-
         if (!empty($data['radiology'])) {
             $analysis = $patient->radiologyAnalyses()->updateOrCreate(
                 ['patient_id' => $patient->id],
                 [
                     'doctor_id' => $data['doctor_id'],
                     'original_image_path' => $data['radiology']['original_image_path'],
-                    'site' => $data['radiology']['site'] ?? null,
                     'status' => $data['radiology']['status'] ?? 'pending'
                 ]
             );
             // $this->runAI($analysis);
         }
 
-        return $patient->load(['medicalHistory','medications','radiologyAnalyses']);
+        return $patient->load(['medicalHistory','radiologyAnalyses']);
     }
 
-    public function delete($id)
-    {
-        $patient = Patient::findOrFail($id);
-        $patient->delete();
-        return true;
-    }
     protected function runAI($analysis)
     {
         $process = new Process([
@@ -98,6 +77,9 @@ class FullPatientService
         $process->run();
 
         if (!$process->isSuccessful()) {
+            $analysis->update([
+                'status'                  => 'failed',
+            ]);
             throw new \Exception('AI process failed: ' . $process->getErrorOutput());
         }
 
@@ -105,9 +87,9 @@ class FullPatientService
 
         $analysis->update([
             'ai_processed_image_path' => $result['ai_processed_image_path'] ?? null,
-            't_score_value'           => $result['t_score_value'] ?? null,
-            'z_score_value'           => $result['z_score_value'] ?? null,
             'diagnosis'               => $result['diagnosis'] ?? null,
+            'diagnostic_accuracy'     =>$result['diagnostic_accuracy'] ?? null,
+            'healthy_accuracy'        =>$result['healthy_accuracy'] ?? null ,
             'status'                  => 'processed',
         ]);
     }

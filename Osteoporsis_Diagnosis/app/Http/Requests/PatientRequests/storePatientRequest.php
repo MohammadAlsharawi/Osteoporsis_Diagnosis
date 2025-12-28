@@ -54,14 +54,7 @@ class storePatientRequest extends FormRequest
             'medical_history.obesity' => 'boolean',
             'medical_history.notes' => 'nullable|string',
 
-            'medications' => 'nullable|array',
-            'medications.*.medication_name' => 'required|string|max:255',
-            'medications.*.dosage' => 'nullable|string|max:255',
-            'medications.*.frequency' => 'nullable|string|max:255',
-            'medications.*.notes' => 'nullable|string',
-
             'radiology.original_image_path' => 'required|string',
-            'radiology.site' => 'nullable|string|max:255',
         ];
     }
 }

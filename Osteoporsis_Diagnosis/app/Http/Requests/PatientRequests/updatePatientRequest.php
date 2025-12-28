@@ -53,14 +53,7 @@ class updatePatientRequest extends FormRequest
             'medical_history.obesity' => 'boolean',
             'medical_history.notes' => 'nullable|string',
 
-            'medications' => 'nullable|array',
-            'medications.*.medication_name' => 'nullable|string|max:255',
-            'medications.*.dosage' => 'nullable|string|max:255',
-            'medications.*.frequency' => 'nullable|string|max:255',
-            'medications.*.notes' => 'nullable|string',
-
             'radiology.original_image_path' => 'nullable|string',
-            'radiology.site' => 'nullable|string|max:255',
         ];
     }
 }

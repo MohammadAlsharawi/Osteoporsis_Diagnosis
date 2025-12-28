@@ -53,15 +53,5 @@ class FullPatientController extends Controller
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
-
-    public function destroy($id)
-    {
-        try {
-            $this->service->delete($id);
-            return $this->successResponse([], 'Patient deleted successfully.');
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 404);
-        }
-    }
 }
 

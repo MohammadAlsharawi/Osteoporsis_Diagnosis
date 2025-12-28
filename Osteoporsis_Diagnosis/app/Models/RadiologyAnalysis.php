@@ -11,11 +11,10 @@ class RadiologyAnalysis extends Model
         'doctor_id',
         'original_image_path',
         'ai_processed_image_path',
-        'site',
-        't_score_value',
-        'z_score_value',
         'diagnosis',
-        'status'
+        'status',
+        'healthy_accuracy',
+        'diagnostic_accuracy',
     ];
 
     public function patient()

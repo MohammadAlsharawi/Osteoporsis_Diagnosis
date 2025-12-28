@@ -42,66 +42,6 @@ class UserService
             throw $e;
         }
     }
-    public function addUser($data)
-    {
-        try {
-            $data['password'] = Hash::make($data['password']);
-            $user = User::create($data);
-            return $user;
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-    public function deleteUser($id)
-    {
-        try {
-            $user = User::find($id)->delete();
-            return $user;
-
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    public function forceDeleteUser( $id)
-    {
-        try {
-            $user = User::withTrashed()->find($id);
-            $user->forceDelete();
-            return $user;
-
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-    public function showDeletedUsers()
-    {
-        try {
-            return User::onlyTrashed()->get();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    public function restoreUser($id)
-    {
-        try {
-            $user = User::withTrashed()->find($id)->restore();
-            return $user;
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    public function getAllUsers()
-    {
-        try {
-            return User::all();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
     public function searchUsers($name = null, $email = null)
     {
         try {
@@ -118,21 +58,7 @@ class UserService
         }
     }
 
-    public function updateUser($id, $data)
-    {
-        try {
-            $user = User::findOrFail($id);
-            if (isset($data['password'])) {
-                $data['password'] = Hash::make($data['password']);
-            }
-            $user->update($data);
-
-            return $user;
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
+    
     public function logout($user)
     {
         try {
